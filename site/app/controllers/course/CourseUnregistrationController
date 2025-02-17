@@ -30,7 +30,7 @@ class CourseUnregistrationController extends AbstractController {
         $this->core->getNotificationFactory()->sendEmails($emails);
     }
 
-    #[Route("/courses/{term}/{course}/unregister")] // make sure this works correctly
+    #[Route("/courses/{term}/{course}/unregister")]
     public function selfUnregister(string $term, string $course): RedirectResponse {
         $this->core->loadCourseConfig($term, $course);
         $this->core->loadCourseDatabase();
@@ -39,10 +39,11 @@ class CourseUnregistrationController extends AbstractController {
     }
 
     public function unregisterCourseUser(string $term, string $course): void {
-        // Find what section student is in 
-        // Remove student from course
+        $user_id = $this->core->getUser()->getId();
+        $this->core->getQueries()->deleteUser($user_id, $semester, $course);
         $instructor_ids = $this->core->getQueries()->getActiveUserIds(true, false, false, false, false);
         $this->messageInstructors($this->core->getUser()->getId(), $term, $course, $instructor_ids);
+        $this->core->addSuccessMessage("You have successfully unregistered from {$course}.");
     }
 }
 
