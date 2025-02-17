@@ -1,0 +1,17 @@
+{% extends 'generic/Popup.twig' %}
+{% block popup_id %}unregister-self-form{% endblock %}
+{% block title %}Unregister from course{% endblock %}
+{% block body %}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+    <p class="black-message"> Unregister from this course?
+    <p> Once clicked, you will be removed from the course. You will have to reenroll if you change your mind.
+{% endblock %}
+{% block form %}
+    <form method="post" action="{{ unregister_user_url }}">
+        {{ parent() }}
+    </form>
+{% endblock %}
+{% block buttons %}
+    {{ block('close_button') }}
+    <input class="btn btn-primary" type="submit" value="Confirm" />
+{% endblock %}
