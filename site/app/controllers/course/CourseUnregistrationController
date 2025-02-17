@@ -30,12 +30,12 @@ class CourseUnregistrationController extends AbstractController {
         $this->core->getNotificationFactory()->sendEmails($emails);
     }
 
-    #[Route("/courses/{term}/{course}/register")] // FIGURE OUT WHERE THIS NEEDS TO GO
+    #[Route("/courses/{term}/{course}/unregister")] // make sure this works correctly
     public function selfUnregister(string $term, string $course): RedirectResponse {
         $this->core->loadCourseConfig($term, $course);
         $this->core->loadCourseDatabase();
         $this->unregisterCourseUser($term, $course);
-        return new RedirectResponse($this->core->buildCourseUrl()); // CHANGE WHAT PAGE IT GOES TO
+        return new RedirectResponse($this->core->buildUrl(['home'));
     }
 
     public function unregisterCourseUser(string $term, string $course): void {
